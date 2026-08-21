@@ -322,6 +322,22 @@
   }
   .tl-input{flex:1;}
 
+  /* ---------- VIEW / EDIT MODE ---------- */
+  .field-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+  .field-head .field-label{margin:0;flex:1;}
+  .edit-btn{border:1px solid var(--line);background:var(--paper-soft);color:var(--accent);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .edit-btn:active,.save-btn:active,.cancel-btn:active{transform:scale(.97);}
+  .answer-view{background:var(--paper-soft);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:46px;font-size:15px;line-height:1.5;color:var(--ink);white-space:pre-wrap;}
+  .answer-view.empty{color:var(--ink-mute);font-style:italic;font-size:13px;}
+  .answer-checks{display:flex;flex-wrap:wrap;gap:7px;}
+  .answer-chip{border:1px solid var(--accent);background:var(--accent-soft);border-radius:20px;padding:7px 11px;font-size:12.5px;color:var(--ink);}
+  .edit-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px;}
+  .save-btn,.cancel-btn{border-radius:9px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;}
+  .save-btn{border:1px solid var(--accent);background:var(--accent);color:#fff;}
+  .cancel-btn{border:1px solid var(--line);background:var(--paper-soft);color:var(--ink-mute);}
+  .timeline-slot .field-head{margin-bottom:8px;}
+  .timeline-slot .answer-view{min-height:42px;}
+
   /* gallery */
   .gallery-label{
     display:flex; align-items:center; justify-content:space-between;
@@ -595,7 +611,56 @@ function accentFor(idx,total){
 CATS.forEach((c,i)=>{ c.accent = accentFor(i, CATS.length); });
 
 /* ================= STATE ================= */
-const state = { data:{}, loaded:false };
+const state = { data:{}, loaded:false, editing:{} };
+
+function editKey(catId, key){ return catId+'::'+key; }
+function beginEdit(catId, key){
+  if(!state.editing[catId]) state.editing[catId]={};
+  const d = state.data[catId];
+  const cat = CATS.find(c=>c.id===catId);
+  const field = cat && cat.fields ? cat.fields.find(f=>f.k===key) : null;
+  const draft = { value: d.values[key] || '', check: null };
+  if(field && field.t==='list'){
+    draft.list = {};
+    for(let i=0;i<field.n;i++) draft.list[field.k+'__'+i] = d.values[field.k+'__'+i] || '';
+  }
+  if(d.checks[key]) draft.check = JSON.parse(JSON.stringify(d.checks[key]));
+  state.editing[catId][key] = draft;
+  renderDetail(CATS.find(c=>c.id===catId));
+}
+function cancelEdit(catId, key){
+  if(state.editing[catId]) delete state.editing[catId][key];
+  renderDetail(CATS.find(c=>c.id===catId));
+}
+function saveEdit(catId, key){
+  const ed = state.editing[catId] && state.editing[catId][key];
+  if(!ed) return;
+  const d = state.data[catId];
+  if(ed.check){
+    d.checks[key] = ed.check;
+  } else if(ed.list){
+    Object.keys(ed.list).forEach(k=>{ d.values[k] = ed.list[k] || ''; });
+  } else {
+    d.values[key] = ed.value || '';
+  }
+  delete state.editing[catId][key];
+  storageSet('cat:'+catId, d);
+  renderDetail(CATS.find(c=>c.id===catId));
+  renderHome();
+  flashToast();
+}
+function isEditing(catId, key){ return !!(state.editing[catId] && state.editing[catId][key]); }
+function draftFor(catId, key){ return state.editing[catId] && state.editing[catId][key]; }
+function questionHeader(label, catId, key){
+  return `<div class="field-head"><label class="field-label">${label}</label>
+    <button type="button" class="edit-btn" onclick="beginEdit('${catId}','${escapeAttr(key)}')">✎ Edit</button></div>`;
+}
+function editorActions(catId, key){
+  return `<div class="edit-actions">
+    <button type="button" class="cancel-btn" onclick="cancelEdit('${catId}','${escapeAttr(key)}')">Batal</button>
+    <button type="button" class="save-btn" onclick="saveEdit('${catId}','${escapeAttr(key)}')">✓ Save</button>
+  </div>`;
+}
 
 function emptyData(){ return {values:{}, checks:{}, images:[]}; }
 
@@ -750,58 +815,100 @@ function closeDetail(){
 
 function fieldHTML(cat, field){
   const d = state.data[cat.id];
-  if(field.t==='text'){
-    const v = d.values[field.k]||'';
-    return `<div class="field"><label class="field-label">${field.l}</label>
-      <input type="text" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" value="${escapeAttr(v)}" placeholder="Tulis di sini...">
-      </div>`;
-  }
-  if(field.t==='money'){
-    const v = d.values[field.k]||'';
-    return `<div class="field"><label class="field-label">${field.l}</label>
-      <div class="money-wrap"><span>Rp</span><input type="text" inputmode="numeric" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" value="${escapeAttr(v)}" placeholder="0 / bulan"></div>
-      </div>`;
-  }
-  if(field.t==='area'){
-    const v = d.values[field.k]||'';
-    let cls = '';
-    if(field.big) cls+=' big';
-    if(field.letter) cls+=' letter';
-    return `<div class="field"><label class="field-label">${field.l}</label>
-      <textarea class="${cls.trim()}" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" placeholder="Tulis di sini...">${escapeHTML(v)}</textarea>
-      </div>`;
-  }
+  const editing = isEditing(cat.id, field.k);
+  const ed = draftFor(cat.id, field.k);
+  const value = editing ? (ed.value || '') : (d.values[field.k] || '');
+
   if(field.t==='check'){
-    const c = d.checks[field.k] || {opts:{}, other:''};
+    const c = editing ? (ed.check || {opts:{}, other:''}) : (d.checks[field.k] || {opts:{}, other:''});
+    if(!editing){
+      const picked = (field.opts||[]).filter(o=>c.opts && c.opts[o]);
+      if(c.other && c.other.trim()) picked.push(c.other.trim());
+      return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+        ${picked.length ? `<div class="answer-checks">${picked.map(x=>`<span class="answer-chip">${escapeHTML(x)}</span>`).join('')}</div>`
+        : `<div class="answer-view empty">Belum diisi.</div>`}</div>`;
+    }
     const chips = field.opts.map(opt=>{
       const checked = !!c.opts[opt];
       return `<label class="chip ${checked?'checked':''}">
-        <input type="checkbox" data-cat="${cat.id}" data-key="${field.k}" data-kind="check-opt" data-opt="${escapeAttr(opt)}" ${checked?'checked':''}>
-        <span class="dot"></span>${opt}</label>`;
+        <input type="checkbox" data-cat="${cat.id}" data-key="${escapeAttr(field.k)}" data-kind="draft-check-opt" data-opt="${escapeAttr(opt)}" ${checked?'checked':''}>
+        <span class="dot"></span>${escapeHTML(opt)}</label>`;
     }).join('');
-    const otherChip = field.other ? `<label class="chip ${c.other && c.other.trim() ? 'checked':''}"><span class="dot"></span>Lainnya…</label>` : '';
-    const otherInput = field.other ? `<input type="text" class="other-input" data-cat="${cat.id}" data-key="${field.k}" data-kind="check-other" value="${escapeAttr(c.other||'')}" placeholder="Lainnya: tulis di sini">` : '';
-    return `<div class="field"><label class="field-label">${field.l}</label>
-      <div class="check-grid">${chips}</div>${otherInput}</div>`;
+    const otherInput = field.other ? `<input type="text" class="other-input" data-cat="${cat.id}" data-key="${escapeAttr(field.k)}" data-kind="draft-check-other" value="${escapeAttr(c.other||'')}" placeholder="Lainnya: tulis di sini">` : '';
+    return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+      <div class="check-grid">${chips}</div>${otherInput}${editorActions(cat.id,field.k)}</div>`;
   }
+
   if(field.t==='list'){
-    const rows = [];
-    for(let i=0;i<field.n;i++){
-      const v = d.values[field.k+'__'+i] || '';
-      rows.push(`<div class="list-item"><span class="li-num">${i+1}</span>
-        <input type="text" data-cat="${cat.id}" data-key="${field.k+'__'+i}" data-kind="value" value="${escapeAttr(v)}" placeholder="Tulis di sini..."></div>`);
+    if(!editing){
+      const rows=[];
+      for(let i=0;i<field.n;i++){
+        const v=(d.values[field.k+'__'+i]||'').trim();
+        if(v) rows.push(`<div class="answer-view" style="margin-bottom:7px;"><strong>${i+1}.</strong> ${escapeHTML(v)}</div>`);
+      }
+      return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+        ${rows.length?rows.join(''):`<div class="answer-view empty">Belum diisi.</div>`}</div>`;
     }
-    return `<div class="field"><label class="field-label">${field.l}</label><div class="list-items">${rows.join('')}</div></div>`;
+    const rows=[];
+    for(let i=0;i<field.n;i++){
+      const k=field.k+'__'+i;
+      const v=ed.list ? (ed.list[k]||'') : (d.values[k]||'');
+      rows.push(`<div class="list-item"><span class="li-num">${i+1}</span>
+        <input type="text" data-cat="${cat.id}" data-key="${escapeAttr(k)}" data-kind="draft-value" value="${escapeAttr(v)}" placeholder="Tulis di sini..."></div>`);
+    }
+    return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+      <div class="list-items">${rows.join('')}</div>${editorActions(cat.id,field.k)}</div>`;
   }
-  return '';
+
+  if(!editing){
+    return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+      <div class="answer-view ${value.trim()?'':'empty'}">${value.trim()?escapeHTML(value):'Belum diisi.'}</div></div>`;
+  }
+
+  if(field.t==='money'){
+    return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+      <div class="money-wrap"><span>Rp</span><input type="text" inputmode="numeric" data-cat="${cat.id}" data-key="${escapeAttr(field.k)}" data-kind="draft-value" value="${escapeAttr(value)}" placeholder="0 / bulan"></div>
+      ${editorActions(cat.id,field.k)}</div>`;
+  }
+
+  let cls='';
+  if(field.big) cls+=' big';
+  if(field.letter) cls+=' letter';
+  if(field.t==='text'){
+    return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+      <input type="text" data-cat="${cat.id}" data-key="${escapeAttr(field.k)}" data-kind="draft-value" value="${escapeAttr(value)}" placeholder="Tulis di sini...">
+      ${editorActions(cat.id,field.k)}</div>`;
+  }
+  return `<div class="field">${questionHeader(field.l,cat.id,field.k)}
+    <textarea class="${cls.trim()}" data-cat="${cat.id}" data-key="${escapeAttr(field.k)}" data-kind="draft-value" placeholder="Tulis di sini...">${escapeHTML(value)}</textarea>
+    ${editorActions(cat.id,field.k)}</div>`;
 }
 
 function timelineHTML(cat){
   const d = state.data[cat.id];
   const rows = TIME_SLOTS.map(t=>{
-    const v = d.values['time__'+t] || '';
-    return `<div class="timeline-slot"><div class="tl-time">${t}</div>
-      <div class="tl-input"><textarea data-cat="${cat.id}" data-key="time__${t}" data-kind="value" placeholder="Apa yang sedang aku lakukan...">${escapeHTML(v)}</textarea></div></div>`;
+    const key='time__'+t;
+    const editing=isEditing(cat.id,key);
+    const ed=draftFor(cat.id,key);
+    const v=editing ? (ed.value||'') : (d.values[key]||'');
+    if(!editing){
+      return `<div class="timeline-slot">
+        <div class="tl-time">${t}</div>
+        <div class="tl-input" style="flex:1;">
+          <div class="field-head"><label class="field-label" style="padding-top:9px;">Apa yang sedang aku lakukan?</label>
+            <button type="button" class="edit-btn" onclick="beginEdit('${cat.id}','${key}')">✎ Edit</button></div>
+          <div class="answer-view ${v.trim()?'':'empty'}">${v.trim()?escapeHTML(v):'Belum diisi.'}</div>
+        </div>
+      </div>`;
+    }
+    return `<div class="timeline-slot">
+      <div class="tl-time">${t}</div>
+      <div class="tl-input" style="flex:1;">
+        <div class="field-head"><label class="field-label" style="padding-top:9px;">Apa yang sedang aku lakukan?</label></div>
+        <textarea data-cat="${cat.id}" data-key="${key}" data-kind="draft-value" placeholder="Apa yang sedang aku lakukan...">${escapeHTML(v)}</textarea>
+        ${editorActions(cat.id,key)}
+      </div>
+    </div>`;
   }).join('');
   return `<div class="section">${rows}</div>`;
 }
@@ -866,28 +973,38 @@ function renderDetail(cat){
 
 /* ================= EVENTS ================= */
 document.addEventListener('input', e=>{
-  const t = e.target;
-  const kind = t.dataset.kind;
-  if(!kind) return;
-  const catId = t.dataset.cat, key = t.dataset.key;
-  const d = state.data[catId];
-  if(kind==='value'){
-    d.values[key] = t.value;
-  } else if(kind==='check-other'){
-    if(!d.checks[key]) d.checks[key] = {opts:{}, other:''};
-    d.checks[key].other = t.value;
+  const t=e.target;
+  const kind=t.dataset.kind;
+  if(kind==='draft-value'){
+    const catId=t.dataset.cat, key=t.dataset.key;
+    let ed=draftFor(catId,key);
+    if(ed) ed.value=t.value;
+    else {
+      const cat=CATS.find(c=>c.id===catId);
+      const field=cat && cat.fields ? cat.fields.find(f=>f.t==='list' && key.startsWith(f.k+'__')) : null;
+      if(field){
+        ed=draftFor(catId,field.k);
+        if(ed && ed.list) ed.list[key]=t.value;
+      }
+    }
+  } else if(kind==='draft-check-other'){
+    const catId=t.dataset.cat, key=t.dataset.key;
+    const ed=draftFor(catId,key);
+    if(ed){
+      if(!ed.check) ed.check={opts:{},other:''};
+      ed.check.other=t.value;
+    }
   }
-  scheduleSave(catId);
 });
 document.addEventListener('change', e=>{
-  const t = e.target;
-  if(t.dataset.kind==='check-opt'){
-    const catId = t.dataset.cat, key = t.dataset.key, opt = t.dataset.opt;
-    const d = state.data[catId];
-    if(!d.checks[key]) d.checks[key] = {opts:{}, other:''};
-    d.checks[key].opts[opt] = t.checked;
-    scheduleSave(catId);
-    const cat = CATS.find(c=>c.id===catId);
+  const t=e.target;
+  if(t.dataset.kind==='draft-check-opt'){
+    const catId=t.dataset.cat, key=t.dataset.key, opt=t.dataset.opt;
+    const ed=draftFor(catId,key);
+    if(!ed) return;
+    if(!ed.check) ed.check={opts:{},other:''};
+    ed.check.opts[opt]=t.checked;
+    const cat=CATS.find(c=>c.id===catId);
     renderDetail(cat);
   }
 });
@@ -936,6 +1053,7 @@ function deleteImage(catId, imgId){
 async function clearCategory(catId){
   if(!confirm('Hapus semua isian dan foto pada kategori ini? Tindakan ini tidak bisa dibatalkan.')) return;
   state.data[catId] = emptyData();
+  if(state.editing[catId]) delete state.editing[catId];
   storageDelete('cat:'+catId);
   renderDetail(CATS.find(c=>c.id===catId));
   renderHome();
