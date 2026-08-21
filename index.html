@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>My Tuesday — 5 Tahun dari Sekarang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F1EA;
+    --paper-soft:#FBF8F4;
+    --ink:#2D2438;
+    --ink-soft:#burlywood;
+    --ink-mute:#7A7086;
+    --line:#E4DACB;
+    --c0:#E4A339; /* fajar */
+    --c1:#C65A6B; /* siang */
+    --c2:#8B4B6B; /* sore */
+    --c3:#3D3466; /* malam */
+    --accent:#C65A6B;
+    --accent-soft:#C65A6B22;
+    --shadow: 0 1px 2px rgba(45,36,56,0.04), 0 6px 20px rgba(45,36,56,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Karla',sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    min-height:100vh;
+  }
+  input,textarea,button{font-family:inherit;}
+  .app{max-width:560px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:56px;}
+
+  /* ---------- HOME ---------- */
+  .home-hero{
+    padding:38px 22px 22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .home-hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, #FBF8F4 0%, var(--paper) 100%);
+    z-index:-1;
+  }
+  .eyebrow{
+    font-family:'Karla',sans-serif;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    font-weight:600;
+    margin:0 0 10px;
+  }
+  .hero-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:40px;
+    line-height:1.02;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .hero-sub{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:16px;
+    color:var(--ink-mute);
+    margin:0 0 18px;
+    line-height:1.4;
+  }
+  .hero-quote{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-size:14.5px;
+    line-height:1.6;
+    color:var(--ink);
+    border-left:2px solid var(--accent);
+    padding-left:14px;
+    margin:0 0 20px;
+  }
+  .hero-quote span{display:block;color:var(--ink-mute);}
+
+  .progress-row{
+    display:flex; align-items:center; gap:12px;
+    margin-top:4px;
+  }
+  .progress-track{
+    flex:1; height:5px; border-radius:4px;
+    background:var(--line); overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; border-radius:4px;
+    background:linear-gradient(90deg,var(--c0),var(--c1),var(--c2),var(--c3));
+    width:0%;
+    transition:width .5s ease;
+  }
+  .progress-label{font-size:12px;color:var(--ink-mute);font-weight:600;white-space:nowrap;}
+
+  .arc-strip{
+    display:flex; gap:3px; padding:0 22px 6px;
+    margin-top:14px;
+  }
+  .arc-dot{flex:1;height:4px;border-radius:3px;opacity:.55;}
+
+  .folder-list{padding:6px 16px 30px;}
+  .folder-card{
+    display:flex; align-items:center; gap:14px;
+    background:var(--paper-soft);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .folder-card:active{transform:scale(0.985);}
+  .folder-card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:var(--accent);
+  }
+  .folder-num{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:26px;
+    color:var(--accent);
+    min-width:40px;
+    flex-shrink:0;
+  }
+  .folder-body{flex:1; min-width:0;}
+  .folder-title{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:15.5px;
+    line-height:1.25;
+    margin:0 0 3px;
+  }
+  .folder-sub{
+    font-size:12px; color:var(--ink-mute);
+    margin:0 0 8px;
+    line-height:1.35;
+  }
+  .folder-progress{
+    height:3px; background:var(--line); border-radius:3px; overflow:hidden;
+  }
+  .folder-progress i{
+    display:block; height:100%; background:var(--accent); width:0%;
+    transition:width .4s ease;
+  }
+  .folder-chev{color:var(--ink-mute); font-size:18px; flex-shrink:0;}
+  .folder-photo-badge{
+    font-size:10.5px; color:var(--accent); font-weight:700;
+    margin-left:6px;
+  }
+
+  .backup-row{
+    display:flex; gap:10px; padding:0 22px; margin-top:4px;
+  }
+  .backup-btn{
+    flex:1; padding:11px 10px; border-radius:12px;
+    border:1px solid var(--line); background:var(--paper-soft);
+    color:var(--ink); font-size:12.5px; font-weight:600; cursor:pointer;
+  }
+  .backup-btn:active{transform:scale(.98);}
+  #importFile{display:none;}
+  .privacy-note{
+    font-size:11px; color:var(--ink-mute); text-align:center;
+    padding:12px 30px 0; line-height:1.5; margin:0;
+  }
+  .pdf-row{padding:0 22px; margin-top:10px;}
+  .pdf-btn{
+    width:100%; padding:13px 10px; border-radius:12px; border:none;
+    background:var(--ink); color:var(--paper-soft);
+    font-size:13.5px; font-weight:700; cursor:pointer;
+    letter-spacing:.01em;
+  }
+  .pdf-btn:active{transform:scale(.98);}
+
+  /* ---------- PRINT / PDF SHEET ---------- */
+  .print-sheet{display:none;}
+  @media print{
+    body *{visibility:hidden;}
+    .print-sheet, .print-sheet *{visibility:visible;}
+    .print-sheet{display:block; position:absolute; left:0; top:0; width:100%; margin:0; padding:0;}
+    @page{ margin:16mm 14mm; }
+  }
+  .ph-cover{
+    padding:60px 0 40px; text-align:center; page-break-after:always;
+  }
+  .ph-cover .eb{font-family:'Karla',sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8B4B6B;font-weight:700;margin-bottom:14px;}
+  .ph-cover h1{font-family:'Fraunces',serif;font-weight:600;font-size:36px;margin:0 0 8px;color:#2D2438;}
+  .ph-cover h2{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:17px;color:#7A7086;margin:0 0 26px;}
+  .ph-cover blockquote{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:#3D3466;max-width:380px;margin:0 auto;line-height:1.7;}
+  .ph-cat{padding:36px 0 10px; page-break-after:always;}
+  .ph-cat:last-child{page-break-after:auto;}
+  .ph-cat-head{
+    font-family:'Fraunces',serif; font-weight:600; font-size:22px; color:#2D2438;
+    border-bottom:2px solid currentColor; padding-bottom:10px; margin-bottom:22px;
+  }
+  .ph-cat-head .ph-num{font-style:italic; font-weight:500; margin-right:8px;}
+  .ph-qa{margin-bottom:16px; break-inside:avoid;}
+  .ph-q{
+    font-family:'Karla',sans-serif; font-weight:700; font-size:11px;
+    letter-spacing:.04em; text-transform:uppercase; margin-bottom:4px;
+  }
+  .ph-a{
+    font-family:'Karla',sans-serif; font-size:13.5px; color:#221C2B; line-height:1.55;
+    white-space:pre-wrap;
+  }
+  .ph-images{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .ph-images img{width:110px; height:110px; object-fit:cover; border-radius:8px;}
+  .ph-core{margin-top:30px; padding-top:20px; border-top:1px solid #E4DACB;}
+  .ph-core h4{font-family:'Fraunces',serif; font-style:italic; font-size:16px; margin:0 0 14px; color:#2D2438;}
+  .ph-core-item{margin-bottom:10px;}
+  .ph-core-item b{display:block; font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:1px;}
+  .ph-core-item span{font-size:12.5px; color:#221C2B;}
+  .ph-final{font-family:'Fraunces',serif;font-style:italic;font-size:13px;text-align:center;margin-top:22px;color:#2D2438;}
+
+  .home-footer{
+    text-align:center; padding:20px 30px 40px;
+    font-family:'Fraunces',serif; font-style:italic;
+    font-size:13.5px; color:var(--ink-mute); line-height:1.6;
+  }
+
+  /* ---------- DETAIL ---------- */
+  .detail{position:fixed; inset:0; background:var(--paper); overflow-y:auto; -webkit-overflow-scrolling:touch; display:none; z-index:30;}
+  .detail.open{display:block;}
+  .detail-inner{max-width:560px; margin:0 auto; padding-bottom:70px;}
+  .detail-header{
+    position:sticky; top:0; z-index:5;
+    background:linear-gradient(180deg, var(--paper) 70%, transparent);
+    padding:16px 16px 10px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .back-btn{
+    width:36px; height:36px; border-radius:50%;
+    background:var(--paper-soft); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; color:var(--ink); cursor:pointer; flex-shrink:0;
+  }
+  .back-btn:active{transform:scale(.92);}
+  .save-toast{
+    font-size:11.5px; color:var(--accent); font-weight:700;
+    opacity:0; transition:opacity .3s ease;
+    letter-spacing:.02em;
+  }
+  .save-toast.show{opacity:1;}
+
+  .detail-hero{padding:6px 22px 22px;}
+  .detail-num{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:500;
+    font-size:15px; color:var(--accent); margin-bottom:6px;
+  }
+  .detail-title{
+    font-family:'Fraunces',serif; font-weight:600; font-size:28px;
+    line-height:1.08; margin:0 0 8px;
+  }
+  .detail-sub{font-size:13.5px; color:var(--ink-mute); line-height:1.5; margin:0;}
+
+  .section{padding:0 22px 26px;}
+  .field{margin-bottom:20px;}
+  .field-label{
+    font-size:13.5px; font-weight:600; color:var(--ink);
+    margin-bottom:8px; line-height:1.4; display:block;
+  }
+  .field input[type=text], .field textarea{
+    width:100%; border:1px solid var(--line); background:var(--paper-soft);
+    border-radius:12px; padding:12px 14px; font-size:16px; color:var(--ink);
+    font-family:'Karla',sans-serif; resize:vertical;
+    transition:border-color .15s ease;
+  }
+  .field input[type=text]:focus, .field textarea:focus{
+    outline:none; border-color:var(--accent);
+  }
+  .field textarea{min-height:64px; line-height:1.5;}
+  .field textarea.big{min-height:120px;}
+  .field textarea.letter{
+    min-height:110px; font-family:'Fraunces',serif; font-style:italic; font-size:15.5px;
+  }
+  .money-wrap{position:relative;}
+  .money-wrap span{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    font-size:15px; color:var(--ink-mute); font-weight:600;
+  }
+  .money-wrap input{padding-left:38px !important;}
+
+  .check-grid{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;}
+  .chip{
+    display:flex; align-items:center; gap:6px;
+    border:1px solid var(--line); background:var(--paper-soft);
+    border-radius:20px; padding:8px 13px; font-size:13px; cursor:pointer;
+    color:var(--ink-mute); transition:.15s ease;
+  }
+  .chip input{display:none;}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex-shrink:0;transition:.15s ease;}
+  .chip.checked{background:var(--accent-soft); border-color:var(--accent); color:var(--ink); font-weight:600;}
+  .chip.checked .dot{background:var(--accent);}
+  .other-input{margin-top:2px;}
+
+  .list-items{display:flex; flex-direction:column; gap:8px;}
+  .list-item{display:flex; align-items:center; gap:10px;}
+  .list-item .li-num{
+    font-family:'Fraunces',serif; font-style:italic; color:var(--accent);
+    font-size:15px; width:18px; flex-shrink:0; text-align:right;
+  }
+  .list-item input{flex:1;}
+
+  .timeline-slot{
+    display:flex; gap:14px; padding:14px 0; border-bottom:1px dashed var(--line);
+  }
+  .timeline-slot:last-child{border-bottom:none;}
+  .tl-time{
+    font-family:'Fraunces',serif; font-style:italic; font-weight:600;
+    font-size:15px; color:var(--accent); width:52px; flex-shrink:0; padding-top:10px;
+  }
+  .tl-input{flex:1;}
+
+  /* gallery */
+  .gallery-label{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:10px;
+  }
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:8px;
+  }
+  .gal-item{
+    position:relative; aspect-ratio:1/1; border-radius:10px; overflow:hidden;
+    background:var(--paper-soft); border:1px solid var(--line);
+  }
+  .gal-item img{width:100%; height:100%; object-fit:cover; display:block;}
+  .gal-del{
+    position:absolute; top:4px; right:4px; width:20px; height:20px;
+    border-radius:50%; background:rgba(45,36,56,.72); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:12px;
+    border:none; cursor:pointer;
+  }
+  .gal-add{
+    aspect-ratio:1/1; border-radius:10px; border:1.5px dashed var(--line);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:4px; color:var(--ink-mute); font-size:11px; cursor:pointer; background:var(--paper-soft);
+    text-align:center; padding:6px;
+  }
+  .gal-add span{font-size:20px; color:var(--accent); line-height:1;}
+  input[type=file]{display:none;}
+
+  .core-static{
+    margin-top:6px; padding:20px; border-radius:16px;
+    background:linear-gradient(160deg, var(--accent-soft), transparent);
+    border:1px solid var(--line);
+  }
+  .core-static h4{
+    font-family:'Fraunces',serif; font-style:italic; font-size:16px; margin:0 0 12px; color:var(--ink);
+  }
+  .core-item{margin-bottom:12px;}
+  .core-item b{
+    display:block; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:2px;
+  }
+  .core-item span{font-size:13.5px; color:var(--ink); line-height:1.4;}
+  .core-final{
+    font-family:'Fraunces',serif; font-style:italic; font-size:14.5px; text-align:center;
+    margin-top:16px; padding-top:16px; border-top:1px solid var(--line); color:var(--ink);
+  }
+
+  .danger-zone{padding:10px 22px 40px; text-align:center;}
+  .danger-btn{
+    background:none; border:none; color:var(--ink-mute); font-size:12px;
+    text-decoration:underline; cursor:pointer; padding:8px;
+  }
+
+  ::selection{background:var(--accent-soft);}
+</style>
+</head>
+<body>
+<div class="app" id="homeView"></div>
+<div class="detail" id="detailView"></div>
+<div class="print-sheet" id="printSheet"></div>
+
+<script>
+/* ================= CONFIG ================= */
+const TIME_SLOTS = ["06.00","07.00","08.00","09.00","10.00","11.00","12.00","13.00","14.00","15.00","16.00","17.00","18.00","19.00","20.00","21.00"];
+
+const CATS = [
+{id:'c0', num:'00', title:'Sampul', sub:'Titik awal cerita ini.', fields:[
+  {k:'tanggal', l:'Tanggal aku menulis ini', t:'text'},
+  {k:'usia', l:'Usiaku sekarang', t:'text'},
+  {k:'tahun', l:'Tahun yang sedang aku bayangkan', t:'text'},
+]},
+{id:'c1', num:'01', title:'Aku Bangun Pagi', sub:'Hari ini adalah hari Selasa.', fields:[
+  {k:'jam_bangun', l:'Aku bangun pukul', t:'text'},
+  {k:'hal_pertama', l:'Hal pertama yang aku lakukan adalah', t:'area'},
+  {k:'perasaan_bangun', l:'Aku bangun dengan perasaan', t:'text'},
+  {k:'alasan_tenang', l:'Aku tidak terburu-buru karena', t:'area'},
+  {k:'suasana_kamar', l:'Aku melihat kamar tidurku dan suasananya seperti', t:'area'},
+  {k:'cahaya_pagi', l:'Cahaya pagi yang masuk ke kamar', t:'area'},
+  {k:'syukur_pagi', l:'Hal pertama yang membuatku bersyukur pagi ini', t:'area'},
+]},
+{id:'c2', num:'02', title:'Hubunganku dengan Allah', sub:'Yang menopang semuanya.', fields:[
+  {k:'ibadah', l:'Setelah bangun, aku:', t:'check', opts:['Shalat Subuh','Dzikir','Membaca Al-Qur\'an','Berdoa','Journaling'], other:true},
+  {k:'hubungan_spiritual', l:'Aku ingin hubungan spiritualku 5 tahun dari sekarang terasa seperti', t:'area'},
+  {k:'rasa_ibadah', l:'Hal yang paling ingin aku rasakan dalam ibadahku', t:'area'},
+  {k:'doa_sering', l:'Doa yang paling sering aku panjatkan', t:'area'},
+]},
+{id:'c3', num:'03', title:'Tubuhku & Kesehatanku', sub:'Rumah yang aku tinggali seumur hidup.', fields:[
+  {k:'tubuh_terasa', l:'Aku ingin tubuhku terasa', t:'area'},
+  {k:'kondisi_fisik', l:'Berat badan / kondisi fisik yang membuatku nyaman', t:'text'},
+  {k:'olahraga', l:'Olahraga yang aku lakukan', t:'text'},
+  {k:'jam_olahraga', l:'Aku biasanya olahraga pada pukul', t:'text'},
+  {k:'cara_makan', l:'Aku makan dengan cara', t:'area'},
+  {k:'jam_tidur', l:'Aku tidur sekitar pukul', t:'text'},
+  {k:'cermin', l:'Aku ingin ketika melihat diriku di cermin, aku merasa', t:'area'},
+  {k:'rawat_diri', l:'Aku merawat diriku dengan', t:'area'},
+]},
+{id:'c4', num:'04', title:'Ritual Kecantikan & Self-Care', sub:'Cara aku memperlakukan diriku.', fields:[
+  {k:'setelah_olahraga', l:'Setelah olahraga aku', t:'area'},
+  {k:'body_care', l:'Sabun/body care yang aku gunakan', t:'text'},
+  {k:'skincare', l:'Skincare-ku', t:'area'},
+  {k:'parfum', l:'Parfum yang aku pakai', t:'text'},
+  {k:'aku_banget', l:'Hal kecil yang membuatku merasa "aku banget"', t:'area'},
+  {k:'beli_barang', l:'Aku membeli barang yang aku suka dengan perasaan', t:'area'},
+  {k:'tidak_bersalah_beli', l:'Aku tidak lagi merasa bersalah ketika', t:'area'},
+]},
+{id:'c5', num:'05', title:'Rumahku', sub:'Tempat semua cerita ini terjadi.', fields:[
+  {k:'tinggal', l:'Aku tinggal di:', t:'check', opts:['Rumah sendiri','Rumah hasil renovasi','Apartemen'], other:true},
+  {k:'lokasi', l:'Lokasinya', t:'text'},
+  {k:'rumah_seperti', l:'Rumahku seperti apa?', t:'area'},
+  {k:'gaya_rumah', l:'Gaya rumahku', t:'text'},
+  {k:'warna_dominan', l:'Warna yang dominan', t:'text'},
+  {k:'ruangan_favorit', l:'Ruangan favoritku', t:'text'},
+  {k:'hal_disuka_rumah', l:'Hal yang paling aku suka dari rumahku', t:'area'},
+  {k:'fasilitas', l:'Di rumah ini aku ingin ada:', t:'check', opts:['Kolam renang','Home gym','Dapur yang nyaman','Taman','Ruang kerja','Ruang bermain anak','Ruang keluarga','Coffee corner'], other:true},
+  {k:'suasana_malam', l:'Suasana rumahku pada malam hari', t:'area'},
+]},
+{id:'c6', num:'06', title:'Suamiku & Pernikahanku', sub:'Tim kecil yang aku bangun bersama.', fields:[
+  {k:'pagi_bersama', l:'Pagi hari aku dan suamiku biasanya', t:'area'},
+  {k:'ngobrol', l:'Kami ngobrol tentang', t:'area'},
+  {k:'hubungan_terasa', l:'Hubungan kami terasa', t:'area'},
+  {k:'waktu_berdua', l:'Kami punya waktu berdua untuk', t:'area'},
+  {k:'pergi_berdua', l:'Kami biasanya pergi berdua ke', t:'text'},
+  {k:'syukur_pernikahan', l:'Hal yang paling aku syukuri dari kehidupan pernikahanku', t:'area'},
+  {k:'jadi_pasangan', l:'Aku ingin menjadi pasangan yang', t:'area'},
+]},
+{id:'c7', num:'07', title:'Anak-anakku', sub:'Alasan aku ingin cepat pulang.', fields:[
+  {k:'usia_anak', l:'Anak-anakku 5 tahun dari sekarang berusia', t:'text'},
+  {k:'anak_seperti', l:'Mereka seperti apa?', t:'area'},
+  {k:'hubungan_anak', l:'Hubunganku dengan mereka', t:'area'},
+  {k:'jadi_ibu', l:'Aku ingin menjadi ibu yang', t:'area'},
+  {k:'aktivitas_bersama', l:'Hal yang paling sering kami lakukan bersama', t:'area'},
+  {k:'diingat_sebagai', l:'Aku ingin mereka mengingat masa kecilnya sebagai', t:'area'},
+  {k:'waktu_untuk_anak', l:'Aku punya waktu untuk:', t:'check', opts:['Mengantar sekolah','Menjemput sekolah','Makan bersama','Membantu belajar','Bermain','Jalan-jalan','Liburan','Menonton / aktivitas keluarga'], other:true},
+  {k:'tidak_melewatkan', l:'Aku tidak ingin melewatkan', t:'area'},
+]},
+{id:'c8', num:'08', title:'Pagiku Sebelum Bekerja', sub:'Jeda tenang sebelum hari ramai dimulai.', fields:[
+  {k:'setelah_anak_siap', l:'Setelah anak-anak siap sekolah, aku', t:'area'},
+  {k:'antar', l:'Aku mengantar mereka:', t:'check', opts:['Setiap hari','Beberapa hari','Dibantu orang lain'], other:true},
+  {k:'setelah_itu', l:'Setelah itu aku dan suamiku', t:'area'},
+  {k:'pergi_ke', l:'Kami pergi ke', t:'text'},
+  {k:'kopi', l:'Aku menikmati kopi / makanan', t:'text'},
+  {k:'membicarakan', l:'Kami membicarakan', t:'area'},
+  {k:'bisnis_dibahas', l:'Hari ini kami sedang membahas bisnis', t:'area'},
+  {k:'punya_waktu_karena', l:'Aku merasa punya waktu karena', t:'area'},
+]},
+{id:'c9', num:'09', title:'Pekerjaanku', sub:'Peranku dalam apa yang aku bangun.', fields:[
+  {k:'bekerja_sebagai', l:'Aku bekerja sebagai', t:'text'},
+  {k:'jenis_usaha', l:'Aku punya:', t:'check', opts:['Perusahaan sendiri','Beberapa bisnis','Pekerjaan tetap + bisnis','Investasi'], other:true},
+  {k:'nama_bidang', l:'Nama / bidang perusahaan atau bisnis utamaku', t:'text'},
+  {k:'jual_apa', l:'Bisnis ini menjual', t:'area'},
+  {k:'target_customer', l:'Target customer-nya', t:'area'},
+  {k:'peran_utama', l:'Peran utamaku di perusahaan:', t:'check', opts:['Mencari ide','Menentukan business model','Strategi','Mengembangkan produk','Mencari peluang','Bertemu partner','Mengawasi perusahaan'], other:true},
+  {k:'tidak_dikerjakan_sendiri', l:'Hal yang TIDAK lagi aku kerjakan sendiri', t:'area'},
+  {k:'orang_bersama', l:'Orang-orang yang bekerja bersamaku', t:'area'},
+  {k:'alasan_kantor', l:'Aku pergi ke kantor karena', t:'area'},
+  {k:'alasan_tidak_kantor', l:'Aku tidak pergi ke kantor karena', t:'area'},
+  {k:'jam_kerja', l:'Jam kerjaku biasanya', t:'text'},
+  {k:'bebas_ubah_jadwal', l:'Aku bebas mengubah jadwalku ketika', t:'area'},
+]},
+{id:'c10', num:'10', title:'Bisnis & Ide-Ideku', sub:'Ide yang jadi nyata.', fields:[
+  {k:'bidang_bisnis', l:'Aku punya bisnis di bidang', t:'list', n:3},
+  {k:'sumber_penghasilan', l:'Sumber penghasilan bisnisku', t:'area'},
+  {k:'bagian_favorit', l:'Aku paling suka bagian', t:'area'},
+  {k:'dibantu', l:'Aku punya orang yang membantu:', t:'check', opts:['Marketing','Sales','Operasional','Finance','Admin','Product','Design','Management'], other:true},
+  {k:'waktu_founder', l:'Aku sebagai founder menghabiskan waktu untuk', t:'area'},
+  {k:'menemukan_ide', l:'Aku menemukan ide bisnis baru dengan cara', t:'area'},
+  {k:'sistem_ide', l:'Ketika punya ide baru, sistemku adalah', t:'area'},
+  {k:'tidak_tinggalkan_ide', l:'Aku tidak lagi meninggalkan ide hanya karena', t:'area'},
+]},
+{id:'c11', num:'11', title:'Uangku', sub:'Angka yang mendukung ketenangan.', fields:[
+  {k:'penghasilan_keluarga', l:'Penghasilan keluarga per bulan yang aku bayangkan', t:'money'},
+  {k:'penghasilan_pribadi', l:'Penghasilan pribadiku', t:'money'},
+  {k:'penghasilan_bisnis', l:'Penghasilan dari bisnis', t:'money'},
+  {k:'penghasilan_investasi', l:'Penghasilan dari investasi/aset', t:'money'},
+  {k:'aset', l:'Aku memiliki:', t:'check', opts:['Dana darurat','Tabungan','Investasi','Properti','Bisnis'], other:true},
+  {k:'aman_finansial', l:'Aku merasa aman secara finansial karena', t:'area'},
+  {k:'beli_tanpa_khawatir', l:'Aku bisa membeli sesuatu yang aku inginkan tanpa khawatir ketika', t:'area'},
+  {k:'tidak_lagi_perasaan', l:'Aku tidak lagi hidup dengan perasaan', t:'area'},
+]},
+{id:'c12', num:'12', title:'Gaya Hidupku', sub:'Kenikmatan yang aku izinkan untuk diri sendiri.', fields:[
+  {k:'mobil', l:'Aku punya mobil', t:'text'},
+  {k:'liburan', l:'Aku pergi liburan', t:'text'},
+  {k:'kali_setahun', l:'Dalam setahun aku ingin bepergian sekitar (kali)', t:'text'},
+  {k:'destinasi', l:'Destinasi yang sering aku kunjungi', t:'text'},
+  {k:'dinikmati', l:'Aku menikmati:', t:'check', opts:['Cafe','Restaurant','Shopping','Spa','Traveling','Hotel bagus','Concert','Hobi'], other:true},
+  {k:'tanpa_bersalah_kecil', l:'Hal-hal kecil yang sekarang bisa aku nikmati tanpa merasa bersalah', t:'area'},
+]},
+{id:'c13', num:'13', title:'Teman, Lingkungan & Relasi', sub:'Orang-orang yang membentukku.', fields:[
+  {k:'orang_sekitar', l:'Orang-orang di sekitarku adalah', t:'area'},
+  {k:'teman_seperti', l:'Aku punya teman yang', t:'area'},
+  {k:'lebih_sering', l:'Aku ingin lebih sering', t:'area'},
+  {k:'lingkungan_seperti', l:'Aku ingin berada di lingkungan yang', t:'area'},
+  {k:'menginspirasi', l:'Orang-orang yang menginspirasiku', t:'area'},
+  {k:'jadi_orang', l:'Aku menjadi orang yang', t:'area'},
+]},
+{id:'c14', num:'14', title:'Diriku Sendiri', sub:'Perempuan yang sedang aku tuju.', fields:[
+  {k:'diriku_5th', l:'Aku 5 tahun dari sekarang adalah perempuan yang', t:'area', big:true},
+  {k:'sifat', l:'Aku lebih:', t:'check', opts:['Percaya diri','Tenang','Berani','Disiplin','Kreatif','Mandiri','Spiritual','Sehat','Kaya','Bebas','Lembut','Tegas'], other:true},
+  {k:'dulu_sulit', l:'Hal yang dulu sangat sulit bagiku tetapi sekarang sudah biasa', t:'area'},
+  {k:'berhenti_merasa', l:'Aku sudah berhenti merasa', t:'text'},
+  {k:'sudah_berani', l:'Aku sudah berani', t:'area'},
+  {k:'bangga_diri14', l:'Aku bangga kepada diriku karena', t:'area'},
+]},
+{id:'c15', num:'15', title:'Satu Hari Biasa', sub:'Ceritakan hari Selasa ini seperti sebuah cerita.', timeline:true},
+{id:'c16', num:'16', title:'Perasaanku', sub:'Bukan apa yang aku punya, tapi bagaimana rasanya.', fields:[
+  {k:'perasaan_hari', l:'Sepanjang hari ini aku merasa', t:'area'},
+  {k:'bebas_karena', l:'Aku merasa bebas karena', t:'area'},
+  {k:'kaya_karena', l:'Aku merasa kaya karena', t:'area'},
+  {k:'berhasil_karena', l:'Aku merasa berhasil karena', t:'area'},
+  {k:'tenang_karena', l:'Aku merasa tenang karena', t:'area'},
+  {k:'dekat_keluarga', l:'Aku merasa dekat dengan keluargaku karena', t:'area'},
+  {k:'bangga_karena16', l:'Aku merasa bangga pada diriku karena', t:'area'},
+  {k:'kalimat_hidup', l:'Kalimat yang menggambarkan hidupku', t:'area', letter:true},
+]},
+{id:'c17', num:'17', title:'Apa yang Sebenarnya Aku Cari?', sub:'Jika semua benda dan angka dihilangkan.', fields:[
+  {k:'kehidupan_sebenarnya', l:'Kehidupan yang sebenarnya aku inginkan adalah', t:'area', big:true},
+  {k:'hidup_terasa17', l:'Aku ingin hidupku terasa', t:'text'},
+  {k:'lebih_banyak', l:'Aku ingin memiliki lebih banyak', t:'text'},
+  {k:'lebih_sedikit', l:'Aku ingin memiliki lebih sedikit', t:'text'},
+  {k:'kebebasan_untuk', l:'Aku ingin punya kebebasan untuk', t:'area'},
+  {k:'tidak_ingin_kembali', l:'Aku tidak ingin kembali ke kehidupan yang', t:'area'},
+]},
+{id:'c18', num:'18', title:'Surat dari 5 Tahun Depan', sub:'Dear Della, sekarang kamu sedang membaca surat ini dari masa depan.', fields:[
+  {k:'dulu_merasa', l:'Aku tahu kamu dulu sering merasa', t:'area', letter:true},
+  {k:'dulu_berpikir', l:'Aku ingat dulu kamu sering berpikir', t:'area', letter:true},
+  {k:'sekarang_sudah', l:'Tapi lihat kita sekarang. Sekarang kita sudah', t:'area', big:true, letter:true},
+  {k:'tidak_perlu_takut', l:'Hal yang ternyata tidak perlu kamu takutkan dulu', t:'area', letter:true},
+  {k:'bisa_dilakukan', l:'Hal yang ternyata bisa kamu lakukan', t:'area', letter:true},
+  {k:'paling_dibanggakan', l:'Hal yang paling aku banggakan dari kamu', t:'area', letter:true},
+  {k:'ingin_kamu_tahu', l:'Aku ingin kamu tahu bahwa', t:'area', letter:true},
+  {k:'mulai_dari', l:'Jangan terlalu takut. Mulai saja dari', t:'text'},
+]},
+{id:'c19', num:'19', title:'My Non-Negotiables', sub:'Yang tidak akan aku tukar dengan apa pun.', fields:[
+  {k:'daftar_nn', l:'Dalam kehidupan yang aku bangun, aku tidak ingin kehilangan', t:'list', n:5},
+  {k:'waktu_selalu', l:'Aku ingin selalu punya waktu untuk', t:'area'},
+  {k:'jaga_selalu', l:'Aku ingin selalu menjaga', t:'area'},
+  {k:'tidak_korbankan', l:'Aku tidak akan mengorbankan', t:'area'},
+]},
+{id:'c20', num:'20', title:'Core of My Life', sub:'Aku sedang membangun kehidupan di mana...', fields:[
+  {k:'cukup_uang', l:'Aku punya cukup uang untuk', t:'area'},
+  {k:'cukup_waktu', l:'Aku punya cukup waktu untuk', t:'area'},
+  {k:'keluarga_yang', l:'Aku punya keluarga yang', t:'area'},
+  {k:'pekerjaan_yang', l:'Aku punya pekerjaan/bisnis yang', t:'area'},
+  {k:'tubuh_yang', l:'Aku punya tubuh yang', t:'area'},
+  {k:'hubungan_allah_yang', l:'Aku punya hubungan dengan Allah yang', t:'area'},
+  {k:'perempuan_yang', l:'Aku merasa menjadi perempuan yang', t:'area'},
+], core:true},
+];
+
+const CORE_VALUES = [
+  {n:'Freedom', d:'Aku bebas menentukan bagaimana waktuku digunakan.'},
+  {n:'Abundance', d:'Aku hidup dalam kelimpahan, bukan terus-menerus dalam rasa kekurangan.'},
+  {n:'Family', d:'Kesuksesanku tidak membuatku kehilangan orang-orang yang paling aku cintai.'},
+  {n:'Creation', d:'Ide-ide di kepalaku menjadi sesuatu yang nyata dan bernilai.'},
+  {n:'Growth', d:'Aku terus berkembang, tetapi tidak harus terburu-buru.'},
+  {n:'Faith', d:'Aku tetap dekat dengan Allah dalam perjalanan mencapai semua ini.'},
+  {n:'Joy', d:'Aku tidak menunggu "nanti" untuk menikmati hidup.'},
+];
+
+/* ================= COLOR ARC ================= */
+function hexToRgb(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+function rgbToHex(r,g,b){return '#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');}
+function lerpColor(a,b,t){const A=hexToRgb(a),B=hexToRgb(b);return rgbToHex(A[0]+(B[0]-A[0])*t, A[1]+(B[1]-A[1])*t, A[2]+(B[2]-A[2])*t);}
+function accentFor(idx,total){
+  const stops=['#E4A339','#C65A6B','#8B4B6B','#3D3466'];
+  const t = idx/(total-1);
+  const seg = t*(stops.length-1);
+  const i = Math.min(Math.floor(seg), stops.length-2);
+  const localT = seg - i;
+  return lerpColor(stops[i], stops[i+1], localT);
+}
+CATS.forEach((c,i)=>{ c.accent = accentFor(i, CATS.length); });
+
+/* ================= STATE ================= */
+const state = { data:{}, loaded:false };
+
+function emptyData(){ return {values:{}, checks:{}, images:[]}; }
+
+/* This app is a standalone file: it saves data in THIS BROWSER, on THIS DEVICE,
+   using localStorage. Nothing is sent anywhere. That also means:
+   - Every person who opens this file (their own copy, their own device/browser)
+     gets their own independent set of answers — nothing is shared or overwritten.
+   - Data lives only in this browser. Clearing browser data, switching browsers,
+     or switching devices will lose it — use "Unduh Cadangan" regularly to be safe. */
+function storageGet(key){
+  try{
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+function storageSet(key, obj){
+  try{ localStorage.setItem(key, JSON.stringify(obj)); return true; }
+  catch(e){ console.error('Storage error', e); return false; }
+}
+function storageDelete(key){
+  try{ localStorage.removeItem(key); }catch(e){}
+}
+function storageAllCatKeys(){
+  try{ return Object.keys(localStorage).filter(k=>k.startsWith('cat:')); }
+  catch(e){ return []; }
+}
+
+async function loadAll(){
+  const existingKeys = storageAllCatKeys();
+  CATS.forEach(cat=>{
+    const key = 'cat:'+cat.id;
+    if(existingKeys.includes(key)){
+      const v = storageGet(key);
+      state.data[cat.id] = v || emptyData();
+    } else {
+      state.data[cat.id] = emptyData();
+    }
+  });
+  state.loaded = true;
+}
+
+let saveTimers = {};
+function scheduleSave(catId){
+  clearTimeout(saveTimers[catId]);
+  saveTimers[catId] = setTimeout(()=>doSave(catId), 400);
+}
+async function doSave(catId){
+  const ok = storageSet('cat:'+catId, state.data[catId]);
+  if(ok){ flashToast(); renderHome(); }
+}
+function flashToast(){
+  const t = document.getElementById('saveToast');
+  if(!t) return;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 1200);
+}
+
+/* ================= PROGRESS ================= */
+function fieldFilled(cat, field){
+  const d = state.data[cat.id];
+  if(field.t==='check'){
+    const c = d.checks[field.k];
+    if(!c) return false;
+    return Object.values(c.opts||{}).some(Boolean) || !!(c.other && c.other.trim());
+  }
+  if(field.t==='list'){
+    for(let i=0;i<field.n;i++){ if((d.values[field.k+'__'+i]||'').trim()) return true; }
+    return false;
+  }
+  return !!(d.values[field.k]||'').trim();
+}
+function catProgress(cat){
+  if(cat.timeline){
+    const d = state.data[cat.id];
+    const filled = TIME_SLOTS.filter(t=> (d.values['time__'+t]||'').trim()).length;
+    return {filled, total:TIME_SLOTS.length};
+  }
+  const total = cat.fields.length;
+  const filled = cat.fields.filter(f=>fieldFilled(cat,f)).length;
+  return {filled, total};
+}
+function overallProgress(){
+  let filled=0, total=0;
+  CATS.forEach(cat=>{ const p=catProgress(cat); filled+=p.filled; total+=p.total; });
+  return total? Math.round(filled/total*100) : 0;
+}
+
+/* ================= RENDER: HOME ================= */
+function renderHome(){
+  const el = document.getElementById('homeView');
+  const pct = overallProgress();
+  let arcDots = CATS.map(c=>`<div class="arc-dot" style="background:${c.accent}"></div>`).join('');
+  let cards = CATS.map(cat=>{
+    const p = catProgress(cat);
+    const pctc = p.total? Math.round(p.filled/p.total*100):0;
+    const photoCount = (state.data[cat.id].images||[]).length;
+    return `
+    <div class="folder-card" style="--accent:${cat.accent}" onclick="openDetail('${cat.id}')">
+      <div class="folder-num">${cat.num}</div>
+      <div class="folder-body">
+        <p class="folder-title">${cat.title}${photoCount? `<span class="folder-photo-badge">◆ ${photoCount} foto</span>`:''}</p>
+        <p class="folder-sub">${cat.sub}</p>
+        <div class="folder-progress"><i style="width:${pctc}%"></i></div>
+      </div>
+      <div class="folder-chev">›</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div class="home-hero">
+      <p class="eyebrow">My Tuesday</p>
+      <h1 class="hero-title">Kehidupan yang<br>Sedang Aku Bangun</h1>
+      <p class="hero-sub">5 tahun dari sekarang.</p>
+      <p class="hero-quote">Aku tidak sedang menunggu kehidupan ini terjadi.<span>Aku sedang membangunnya, sedikit demi sedikit.</span></p>
+      <div class="progress-row">
+        <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="progress-label">${pct}% terisi</div>
+      </div>
+    </div>
+    <div class="arc-strip">${arcDots}</div>
+    <div class="folder-list">${cards}</div>
+    <div class="pdf-row">
+      <button class="pdf-btn" onclick="exportPDF()">🖨 Ekspor ke PDF / Cetak</button>
+    </div>
+    <div class="backup-row">
+      <button class="backup-btn" onclick="exportBackup()">⬇ Unduh Cadangan</button>
+      <button class="backup-btn" onclick="triggerImport()">⬆ Muat Cadangan</button>
+      <input type="file" id="importFile" accept="application/json" onchange="importBackup(this.files)">
+    </div>
+    <p class="privacy-note">Semua isian dan foto tersimpan hanya di perangkat ini — bukan di server mana pun. Unduh cadangan sesekali supaya isianmu tidak hilang.</p>
+    <div class="home-footer">"My life is mine.<br>Aku sedang membangun kehidupan yang terasa seperti aku."</div>
+  `;
+}
+
+/* ================= RENDER: DETAIL ================= */
+let currentCat = null;
+
+function openDetail(catId){
+  currentCat = catId;
+  const cat = CATS.find(c=>c.id===catId);
+  renderDetail(cat);
+  document.getElementById('detailView').classList.add('open');
+  document.getElementById('detailView').scrollTop = 0;
+  document.body.style.overflow='hidden';
+}
+function closeDetail(){
+  document.getElementById('detailView').classList.remove('open');
+  document.body.style.overflow='';
+  renderHome();
+}
+
+function fieldHTML(cat, field){
+  const d = state.data[cat.id];
+  if(field.t==='text'){
+    const v = d.values[field.k]||'';
+    return `<div class="field"><label class="field-label">${field.l}</label>
+      <input type="text" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" value="${escapeAttr(v)}" placeholder="Tulis di sini...">
+      </div>`;
+  }
+  if(field.t==='money'){
+    const v = d.values[field.k]||'';
+    return `<div class="field"><label class="field-label">${field.l}</label>
+      <div class="money-wrap"><span>Rp</span><input type="text" inputmode="numeric" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" value="${escapeAttr(v)}" placeholder="0 / bulan"></div>
+      </div>`;
+  }
+  if(field.t==='area'){
+    const v = d.values[field.k]||'';
+    let cls = '';
+    if(field.big) cls+=' big';
+    if(field.letter) cls+=' letter';
+    return `<div class="field"><label class="field-label">${field.l}</label>
+      <textarea class="${cls.trim()}" data-cat="${cat.id}" data-key="${field.k}" data-kind="value" placeholder="Tulis di sini...">${escapeHTML(v)}</textarea>
+      </div>`;
+  }
+  if(field.t==='check'){
+    const c = d.checks[field.k] || {opts:{}, other:''};
+    const chips = field.opts.map(opt=>{
+      const checked = !!c.opts[opt];
+      return `<label class="chip ${checked?'checked':''}">
+        <input type="checkbox" data-cat="${cat.id}" data-key="${field.k}" data-kind="check-opt" data-opt="${escapeAttr(opt)}" ${checked?'checked':''}>
+        <span class="dot"></span>${opt}</label>`;
+    }).join('');
+    const otherChip = field.other ? `<label class="chip ${c.other && c.other.trim() ? 'checked':''}"><span class="dot"></span>Lainnya…</label>` : '';
+    const otherInput = field.other ? `<input type="text" class="other-input" data-cat="${cat.id}" data-key="${field.k}" data-kind="check-other" value="${escapeAttr(c.other||'')}" placeholder="Lainnya: tulis di sini">` : '';
+    return `<div class="field"><label class="field-label">${field.l}</label>
+      <div class="check-grid">${chips}</div>${otherInput}</div>`;
+  }
+  if(field.t==='list'){
+    const rows = [];
+    for(let i=0;i<field.n;i++){
+      const v = d.values[field.k+'__'+i] || '';
+      rows.push(`<div class="list-item"><span class="li-num">${i+1}</span>
+        <input type="text" data-cat="${cat.id}" data-key="${field.k+'__'+i}" data-kind="value" value="${escapeAttr(v)}" placeholder="Tulis di sini..."></div>`);
+    }
+    return `<div class="field"><label class="field-label">${field.l}</label><div class="list-items">${rows.join('')}</div></div>`;
+  }
+  return '';
+}
+
+function timelineHTML(cat){
+  const d = state.data[cat.id];
+  const rows = TIME_SLOTS.map(t=>{
+    const v = d.values['time__'+t] || '';
+    return `<div class="timeline-slot"><div class="tl-time">${t}</div>
+      <div class="tl-input"><textarea data-cat="${cat.id}" data-key="time__${t}" data-kind="value" placeholder="Apa yang sedang aku lakukan...">${escapeHTML(v)}</textarea></div></div>`;
+  }).join('');
+  return `<div class="section">${rows}</div>`;
+}
+
+function galleryHTML(cat){
+  const imgs = state.data[cat.id].images || [];
+  const items = imgs.map(img=>`
+    <div class="gal-item">
+      <img src="${img.src}">
+      <button class="gal-del" onclick="deleteImage('${cat.id}','${img.id}')">✕</button>
+    </div>`).join('');
+  return `
+    <div class="section">
+      <div class="gallery-label"><label class="field-label" style="margin:0;">Foto & Inspirasi</label></div>
+      <div class="gallery-grid">
+        ${items}
+        <label class="gal-add">
+          <span>+</span>Tambah Foto
+          <input type="file" accept="image/*" multiple onchange="handleImages('${cat.id}', this.files)">
+        </label>
+      </div>
+    </div>`;
+}
+
+function coreStaticHTML(){
+  const items = CORE_VALUES.map(v=>`<div class="core-item"><b>${v.n}</b><span>${v.d}</span></div>`).join('');
+  return `<div class="core-static">
+    <h4>My Core</h4>
+    ${items}
+    <div class="core-final">Aku tidak sedang mengejar kehidupan orang lain.<br>Aku sedang membangun kehidupan yang terasa seperti aku.</div>
+  </div>`;
+}
+
+function renderDetail(cat){
+  const el = document.getElementById('detailView');
+  let body = '';
+  if(cat.timeline){
+    body = timelineHTML(cat) + galleryHTML(cat);
+  } else {
+    body = `<div class="section">${cat.fields.map(f=>fieldHTML(cat,f)).join('')}</div>` + galleryHTML(cat);
+    if(cat.core){ body += `<div class="section" style="padding-top:0;">${coreStaticHTML()}</div>`; }
+  }
+  el.innerHTML = `
+    <div class="detail-inner">
+      <div class="detail-header">
+        <button class="back-btn" onclick="closeDetail()">←</button>
+        <div class="save-toast" id="saveToast">Tersimpan</div>
+      </div>
+      <div class="detail-hero" style="--accent:${cat.accent}">
+        <p class="detail-num">${cat.num} / 20</p>
+        <h2 class="detail-title">${cat.title}</h2>
+        <p class="detail-sub">${cat.sub}</p>
+      </div>
+      ${body}
+      <div class="danger-zone">
+        <button class="danger-btn" onclick="clearCategory('${cat.id}')">Hapus isian kategori ini</button>
+      </div>
+    </div>
+  `;
+  el.style.setProperty('--accent', cat.accent);
+}
+
+/* ================= EVENTS ================= */
+document.addEventListener('input', e=>{
+  const t = e.target;
+  const kind = t.dataset.kind;
+  if(!kind) return;
+  const catId = t.dataset.cat, key = t.dataset.key;
+  const d = state.data[catId];
+  if(kind==='value'){
+    d.values[key] = t.value;
+  } else if(kind==='check-other'){
+    if(!d.checks[key]) d.checks[key] = {opts:{}, other:''};
+    d.checks[key].other = t.value;
+  }
+  scheduleSave(catId);
+});
+document.addEventListener('change', e=>{
+  const t = e.target;
+  if(t.dataset.kind==='check-opt'){
+    const catId = t.dataset.cat, key = t.dataset.key, opt = t.dataset.opt;
+    const d = state.data[catId];
+    if(!d.checks[key]) d.checks[key] = {opts:{}, other:''};
+    d.checks[key].opts[opt] = t.checked;
+    scheduleSave(catId);
+    const cat = CATS.find(c=>c.id===catId);
+    renderDetail(cat);
+  }
+});
+
+/* ================= IMAGES ================= */
+function compressImage(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const maxDim = 1000;
+        let w = img.width, h = img.height;
+        if(w>h && w>maxDim){ h = h*(maxDim/w); w=maxDim; }
+        else if(h>maxDim){ w = w*(maxDim/h); h=maxDim; }
+        const canvas = document.createElement('canvas');
+        canvas.width=w; canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg', 0.72));
+      };
+      img.onerror = reject;
+      img.src = ev.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+async function handleImages(catId, files){
+  const cat = CATS.find(c=>c.id===catId);
+  for(const file of Array.from(files)){
+    try{
+      const dataUrl = await compressImage(file);
+      state.data[catId].images.push({id: 'img_'+Date.now()+'_'+Math.random().toString(36).slice(2,7), src: dataUrl});
+    }catch(e){ console.error('Image error', e); }
+  }
+  scheduleSave(catId);
+  renderDetail(cat);
+}
+function deleteImage(catId, imgId){
+  state.data[catId].images = state.data[catId].images.filter(i=>i.id!==imgId);
+  scheduleSave(catId);
+  renderDetail(CATS.find(c=>c.id===catId));
+}
+
+/* ================= CLEAR ================= */
+async function clearCategory(catId){
+  if(!confirm('Hapus semua isian dan foto pada kategori ini? Tindakan ini tidak bisa dibatalkan.')) return;
+  state.data[catId] = emptyData();
+  storageDelete('cat:'+catId);
+  renderDetail(CATS.find(c=>c.id===catId));
+  renderHome();
+}
+
+/* ================= BACKUP: EXPORT / IMPORT ================= */
+function exportBackup(){
+  const backup = { app:'my-tuesday', version:1, exportedAt: new Date().toISOString(), data: state.data };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const stamp = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = 'my-tuesday-cadangan-'+stamp+'.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function triggerImport(){
+  document.getElementById('importFile').click();
+}
+function importBackup(files){
+  const file = files && files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const parsed = JSON.parse(ev.target.result);
+      const incoming = parsed && parsed.data ? parsed.data : parsed;
+      if(!incoming || typeof incoming !== 'object') throw new Error('format tidak dikenali');
+      if(!confirm('Ganti semua isian saat ini dengan isi dari file cadangan ini?')) return;
+      CATS.forEach(cat=>{
+        const v = incoming[cat.id];
+        state.data[cat.id] = v ? v : emptyData();
+        storageSet('cat:'+cat.id, state.data[cat.id]);
+      });
+      renderHome();
+      alert('Cadangan berhasil dimuat.');
+    }catch(e){
+      alert('File cadangan tidak bisa dibaca. Pastikan ini file cadangan dari aplikasi ini.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ================= PDF / PRINT EXPORT ================= */
+function answerTextFor(cat, field){
+  const d = state.data[cat.id];
+  if(field.t==='check'){
+    const c = d.checks[field.k];
+    if(!c) return '';
+    const picked = (field.opts||[]).filter(o=>c.opts && c.opts[o]);
+    if(c.other && c.other.trim()) picked.push(c.other.trim());
+    return picked.join(', ');
+  }
+  if(field.t==='list'){
+    const rows = [];
+    for(let i=0;i<field.n;i++){
+      const v = (d.values[field.k+'__'+i]||'').trim();
+      if(v) rows.push((i+1)+'. '+v);
+    }
+    return rows.join('\n');
+  }
+  return (d.values[field.k]||'').trim();
+}
+function buildPrintHTML(){
+  let html = `
+    <div class="ph-cover">
+      <p class="eb">My Tuesday</p>
+      <h1>Kehidupan yang Sedang Aku Bangun</h1>
+      <h2>5 tahun dari sekarang</h2>
+      <blockquote>"Aku tidak sedang menunggu kehidupan ini terjadi.<br>Aku sedang membangunnya, sedikit demi sedikit."</blockquote>
+    </div>`;
+
+  CATS.forEach(cat=>{
+    let qa = '';
+    if(cat.timeline){
+      const d = state.data[cat.id];
+      TIME_SLOTS.forEach(t=>{
+        const v = (d.values['time__'+t]||'').trim();
+        if(v){
+          qa += `<div class="ph-qa"><div class="ph-q" style="color:${cat.accent}">Pukul ${t}</div><div class="ph-a">${escapeHTML(v)}</div></div>`;
+        }
+      });
+    } else {
+      cat.fields.forEach(f=>{
+        const ans = answerTextFor(cat, f);
+        if(ans){
+          qa += `<div class="ph-qa"><div class="ph-q" style="color:${cat.accent}">${escapeHTML(f.l)}</div><div class="ph-a">${escapeHTML(ans)}</div></div>`;
+        }
+      });
+    }
+    const imgs = (state.data[cat.id].images||[]);
+    const imgsHTML = imgs.length ? `<div class="ph-images">${imgs.map(i=>`<img src="${i.src}">`).join('')}</div>` : '';
+
+    let coreHTML = '';
+    if(cat.core){
+      coreHTML = `<div class="ph-core"><h4>My Core</h4>
+        ${CORE_VALUES.map(v=>`<div class="ph-core-item"><b style="color:${cat.accent}">${v.n}</b><span>${v.d}</span></div>`).join('')}
+        <div class="ph-final">Aku tidak sedang mengejar kehidupan orang lain.<br>Aku sedang membangun kehidupan yang terasa seperti aku.</div>
+      </div>`;
+    }
+
+    if(qa || imgsHTML || cat.core){
+      html += `<div class="ph-cat">
+        <div class="ph-cat-head" style="color:${cat.accent}"><span class="ph-num">${cat.num}</span>${cat.title}</div>
+        ${qa || '<p style="font-family:Karla,sans-serif;font-size:12.5px;color:#7A7086;">Belum diisi.</p>'}
+        ${imgsHTML}
+        ${coreHTML}
+      </div>`;
+    }
+  });
+  return html;
+}
+function exportPDF(){
+  document.getElementById('printSheet').innerHTML = buildPrintHTML();
+  setTimeout(()=>{ window.print(); }, 150);
+}
+
+/* ================= UTIL ================= */
+function escapeHTML(s){ return (s||'').replace(/[&<>]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+function escapeAttr(s){ return (s||'').replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+/* ================= INIT ================= */
+async function init(){
+  document.getElementById('homeView').innerHTML = `<div style="padding:80px 24px;text-align:center;font-family:'Fraunces',serif;font-style:italic;color:#7A7086;">Menyiapkan lembar kehidupanmu...</div>`;
+  await loadAll();
+  renderHome();
+}
+init();
+</script>
+</body>
+</html>
